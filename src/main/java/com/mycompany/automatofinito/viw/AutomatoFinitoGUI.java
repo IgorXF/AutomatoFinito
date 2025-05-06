@@ -18,8 +18,8 @@ public class AutomatoFinitoGUI {
         // Criando a janela
         JFrame frame = new JFrame("Autômato Finito Determinístico");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
-        frame.setLocationRelativeTo(null); // Centraliza a tela
+        frame.setSize(800, 500); // um pouco maior
+        frame.setLocationRelativeTo(null); // Centraliza
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -36,55 +36,52 @@ public class AutomatoFinitoGUI {
         inputField.setFont(new Font("Arial", Font.PLAIN, 20));
 
         JButton verificarButton = new JButton("Verificar Palavra");
-        verificarButton.setEnabled(false); // Inicialmente desabilitado
+        verificarButton.setEnabled(false);
 
-        JLabel resultadoLabel = new JLabel("Digite uma palavra para verificar.");
-        resultadoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        resultadoLabel.setVerticalAlignment(SwingConstants.TOP);
+        // JTextArea com scroll para mostrar resultado
+        JTextArea resultadoArea = new JTextArea(5, 50);
+        resultadoArea.setFont(new Font("Monospaced", Font.PLAIN, 18));
+        resultadoArea.setEditable(false);
+        resultadoArea.setLineWrap(false); // desativa quebra de linha
+        JScrollPane scrollPane = new JScrollPane(
+            resultadoArea,
+            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
 
         panel.add(new JLabel("Escolha o AFD:"));
         panel.add(comboBox);
         panel.add(new JLabel("Digite a palavra:"));
         panel.add(inputField);
         panel.add(verificarButton);
-        panel.add(resultadoLabel);
+        panel.add(scrollPane);
 
         frame.add(panel);
         frame.setVisible(true);
 
-        // Função auxiliar para atualizar o botão com base no texto
         Runnable atualizarEstadoDoBotao = () -> {
             String texto = inputField.getText();
             boolean habilitar = texto != null && !texto.trim().isEmpty();
             verificarButton.setEnabled(habilitar);
-            if (!habilitar) {
-                resultadoLabel.setText(""); // Apaga a mensagem se o campo estiver vazio
-            }
+            if (!habilitar) resultadoArea.setText("");
         };
 
-        // Limpa mensagem ao alterar AFD
-        comboBox.addActionListener(e -> {
-            resultadoLabel.setText("");
-        });
+        comboBox.addActionListener(e -> resultadoArea.setText(""));
 
-        // Monitorar alterações no campo de texto
         inputField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
             public void insertUpdate(DocumentEvent e) {
                 atualizarEstadoDoBotao.run();
-                resultadoLabel.setText("");
+                resultadoArea.setText("");
             }
 
-            @Override
             public void removeUpdate(DocumentEvent e) {
                 atualizarEstadoDoBotao.run();
-                resultadoLabel.setText("");
+                resultadoArea.setText("");
             }
 
-            @Override
             public void changedUpdate(DocumentEvent e) {
                 atualizarEstadoDoBotao.run();
-                resultadoLabel.setText("");
+                resultadoArea.setText("");
             }
         });
 
@@ -104,45 +101,31 @@ public class AutomatoFinitoGUI {
 
                 int erro = afd.getIndiceErro(palavra);
                 if (erro == -1) {
-                    resultadoLabel.setText("<html><b>Palavra ACEITA!</b></html>");
-                    resultadoLabel.setForeground(Color.GREEN);
-                    resultadoLabel.setFont(new Font("Arial", Font.BOLD, 20));
+                    resultadoArea.setForeground(Color.GREEN.darker());
+                    resultadoArea.setText("Palavra ACEITA!");
                 } else if (erro == palavra.length()) {
-                    resultadoLabel.setText("<html><b>Palavra REJEITADA! A palavra não atingiu as condições</b></html>");
-                    resultadoLabel.setForeground(Color.RED);
-                    resultadoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                    resultadoArea.setForeground(Color.RED);
+                    resultadoArea.setText("Palavra REJEITADA! A palavra terminou sem atingir um estado final.");
                 } else {
-                    // Mostrando erro com alinhamento correto usando <pre>
-                    StringBuilder palavraFormatada = new StringBuilder();
+                    // Erro no meio da palavra
+                    StringBuilder linhaPalavra = new StringBuilder();
                     for (int i = 0; i < palavra.length(); i++) {
-                        if (i == erro) {
-                            palavraFormatada.append("<b><font color='red'>").append(palavra.charAt(i)).append("</font></b>");
-                        } else {
-                            palavraFormatada.append(palavra.charAt(i));
-                        }
+                        linhaPalavra.append(palavra.charAt(i));
                     }
 
-                    StringBuilder setaErro = new StringBuilder();
+                    StringBuilder linhaSeta = new StringBuilder();
                     for (int i = 0; i < erro; i++) {
-                        setaErro.append(" ");
+                        linhaSeta.append(" ");
                     }
-                    setaErro.append("↑ erro");
+                    linhaSeta.append("↑ erro");
 
-                    StringBuilder html = new StringBuilder("<html>");
-                    html.append("<pre style='font-family: monospace;'>");
-                    html.append("Palavra: ").append(palavraFormatada).append("\n");
-                    html.append("         ").append(setaErro);
-                    html.append("</pre>");
-                    html.append("</html>");
-
-                    resultadoLabel.setText(html.toString());
-                    resultadoLabel.setForeground(Color.RED);
-                    resultadoLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+                    resultadoArea.setForeground(Color.RED);
+                    resultadoArea.setText("Palavra: " + linhaPalavra + "\n         " + linhaSeta);
                 }
 
             } catch (Exception ex) {
-                resultadoLabel.setText("Erro: " + ex.getMessage());
-                resultadoLabel.setForeground(Color.RED);
+                resultadoArea.setForeground(Color.RED);
+                resultadoArea.setText("Erro: " + ex.getMessage());
                 ex.printStackTrace();
             }
         });

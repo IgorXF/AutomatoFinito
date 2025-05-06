@@ -21,29 +21,6 @@ public class AFD {
         this.transicoes = transicoes;
     }
 
-    public boolean verifica(String palavra) {
-        int estadoAtual = estadoInicial;
-
-        for (char simbolo : palavra.toCharArray()) {
-            boolean transicaoEncontrada = false;
-
-            for (Transicao t : transicoes) {
-                if (t.origem == estadoAtual && t.simbolo == simbolo) {
-                    estadoAtual = t.destino;
-                    transicaoEncontrada = true;
-                    break;
-                }
-            }
-
-            if (!transicaoEncontrada) {
-                return false;
-            }
-        }
-
-        // Verificando se o estado final é válido após processar toda a palavra
-        return estadosFinais.contains(estadoAtual);
-    }
-
     // Método para retornar o erro na palavra (índice do erro)
     public int getIndiceErro(String palavra) {
         int estadoAtual = estadoInicial;
