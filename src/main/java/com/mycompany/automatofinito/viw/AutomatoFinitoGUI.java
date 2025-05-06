@@ -105,7 +105,7 @@ public class AutomatoFinitoGUI {
                     resultadoArea.setText("Palavra ACEITA!");
                 } else if (erro == palavra.length()) {
                     resultadoArea.setForeground(Color.RED);
-                    resultadoArea.setText("Palavra REJEITADA! A palavra terminou sem atingir um estado final.");
+                    resultadoArea.setText("Palavra REJEITADA! A palavra terminou sem atingir a condição da linguagem.");
                 } else {
                     // Erro no meio da palavra
                     StringBuilder linhaPalavra = new StringBuilder();
