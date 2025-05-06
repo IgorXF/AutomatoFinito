@@ -40,8 +40,36 @@ public class AFD {
             }
         }
 
+        // Verificando se o estado final é válido após processar toda a palavra
         return estadosFinais.contains(estadoAtual);
     }
+
+    // Método para retornar o erro na palavra (índice do erro)
+    public int getIndiceErro(String palavra) {
+        int estadoAtual = estadoInicial;
+
+        for (int i = 0; i < palavra.length(); i++) {
+            char simbolo = palavra.charAt(i);
+            boolean transicaoEncontrada = false;
+
+            for (Transicao t : transicoes) {
+                if (t.origem == estadoAtual && t.simbolo == simbolo) {
+                    estadoAtual = t.destino;
+                    transicaoEncontrada = true;
+                    break;
+                }
+            }
+
+            if (!transicaoEncontrada) {
+                return i; // Retorna o índice do erro na palavra
+            }
+        }
+
+        // Se não for final ao término da palavra, retorna o estado final não atingido
+        if (!estadosFinais.contains(estadoAtual)) {
+            return palavra.length(); // Retorna o comprimento da palavra se não terminou em estado final
+        }
+
+        return -1; // Se a palavra foi completamente aceita
+    }
 }
-
-
