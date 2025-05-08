@@ -81,7 +81,8 @@ src/
 
 ## 📸 Captura de Tela
 
-> *Será adicionado aqui futuramente.*
+> ![Tela De Acerto - Exemplo (images/CapturaDeTelaAcerto.png)
+
 
 ---
 
