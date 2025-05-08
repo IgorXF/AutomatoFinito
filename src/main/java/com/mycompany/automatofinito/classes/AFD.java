@@ -21,10 +21,12 @@ public class AFD {
         this.transicoes = transicoes;
     }
 
-    public boolean verifica(String palavra) {
+    // Método para retornar o erro na palavra (índice do erro)
+    public int getIndiceErro(String palavra) {
         int estadoAtual = estadoInicial;
 
-        for (char simbolo : palavra.toCharArray()) {
+        for (int i = 0; i < palavra.length(); i++) {
+            char simbolo = palavra.charAt(i);
             boolean transicaoEncontrada = false;
 
             for (Transicao t : transicoes) {
@@ -36,12 +38,15 @@ public class AFD {
             }
 
             if (!transicaoEncontrada) {
-                return false;
+                return i; // Retorna o índice do erro na palavra
             }
         }
 
-        return estadosFinais.contains(estadoAtual);
+        // Se não for final ao término da palavra, retorna o estado final não atingido
+        if (!estadosFinais.contains(estadoAtual)) {
+            return palavra.length(); // Retorna o comprimento da palavra se não terminou em estado final
+        }
+
+        return -1; // Se a palavra foi completamente aceita
     }
 }
-
-
