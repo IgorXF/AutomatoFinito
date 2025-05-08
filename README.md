@@ -79,10 +79,13 @@ src/
 
 ---
 
-## 📸 Captura de Tela
+## 📸 Capturas de Tela
 
-> ![Tela De Acerto - Exemplo (images/CapturaDeTelaAcerto.png)
+### ✅ Palavra aceita
+![Tela De Acerto](images/CapturaDeTelaAcerto.png)
 
+### ❌ Palavra rejeitada
+![Tela De Erro](images/CapturaDeTelaErro.png)
 
 ---
 
