@@ -2,6 +2,11 @@
 
 Este é um projeto Java que simula **Autômatos Finitos Determinísticos (AFDs)** para verificar se palavras pertencem a determinadas linguagens formais. A interface gráfica permite ao usuário selecionar um autômato, digitar uma palavra e visualizar passo a passo onde a palavra é aceita ou rejeitada.
 
+## 👨‍💻 Autores
+
+- [Igor Xisto](https://github.com/IgorXF)
+- [Mylena Antonelli](https://github.com/mylenaantonelli)
+
 ## 🚀 Funcionalidades
 
 - Interface gráfica com **seleção de autômato (AFD)**.
