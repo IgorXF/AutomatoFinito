@@ -36,7 +36,7 @@ public class AutomatoFinitoGUI {
         inputField.setFont(new Font("Arial", Font.PLAIN, 20));
 
         JButton verificarButton = new JButton("Verificar Palavra");
-        verificarButton.setEnabled(false);
+        verificarButton.setEnabled(true);
 
         // JTextArea com scroll para mostrar resultado
         JTextArea resultadoArea = new JTextArea(5, 50);
@@ -59,28 +59,19 @@ public class AutomatoFinitoGUI {
         frame.add(panel);
         frame.setVisible(true);
 
-        Runnable atualizarEstadoDoBotao = () -> {
-            String texto = inputField.getText();
-            boolean habilitar = texto != null && !texto.trim().isEmpty();
-            verificarButton.setEnabled(habilitar);
-            if (!habilitar) resultadoArea.setText("");
-        };
-
         comboBox.addActionListener(e -> resultadoArea.setText(""));
 
         inputField.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) {
-                atualizarEstadoDoBotao.run();
+                
                 resultadoArea.setText("");
             }
 
             public void removeUpdate(DocumentEvent e) {
-                atualizarEstadoDoBotao.run();
                 resultadoArea.setText("");
             }
 
-            public void changedUpdate(DocumentEvent e) {
-                atualizarEstadoDoBotao.run();
+            public void changedUpdate(DocumentEvent e) {     
                 resultadoArea.setText("");
             }
         });
@@ -94,7 +85,7 @@ public class AutomatoFinitoGUI {
                 String csv = filePersistence.loadFromFile(arquivoCSV);
                 SerializadorCSVAFD serializador = new SerializadorCSVAFD();
                 List<Transicao> transicoes = serializador.fromCSV(csv);
-                List<Integer> finais = serializador.estadosFinais;
+                List<Integer> finais = serializador.estadosFinais; /// herdar do serializador e modificar la
 
                 AFD afd = new AFD(0, finais, transicoes);
                 String palavra = inputField.getText();
