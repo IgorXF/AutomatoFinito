@@ -54,6 +54,30 @@ Exemplos:
 
 ---
 
+## 📂 Como adicionar novos autômatos
+
+Se você deseja que o usuário adicione novos AFDs personalizados ao projeto, siga as instruções abaixo:
+
+###1. 📄 Crie um novo arquivo CSV no diretório raiz
+O nome do arquivo deve seguir o padrão `afdX.csv`, onde X é um número inteiro (por exemplo, `afd5.csv`, `afd6.csv` etc.).
+
+Esse nome será usado automaticamente com base na ordem das opções do menu suspenso da interface gráfica.
+###2. ✨ Adicione a descrição do novo autômato no combo box
+No arquivo AutomatoFinitoGUI.java, localize este trecho:
+```
+String[] opcoes = {
+    "1 - L = {w | w possua aa ou bb como sub palavra}",
+    "2 - L = {w | entre dois a's de w, há quantidade par de b's}",
+    "3 - L = {w | w tenha aa ou aba, como subpalavra}",
+    "4 - L = {w | entre dois b's de w, há quantidade impar de a's}",
+};
+```
+Adicione uma nova entrada para o autômato que você criou:
+
+"5 - L = {w | descrição do novo autômato aqui}",
+O programa usará automaticamente o arquivo afd5.csv.
+
+---
 ## 📦 Estrutura de Pastas
 
 ```
